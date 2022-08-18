@@ -9,27 +9,58 @@ metadata:
     # ADD ANNOTATION
     nginx.ingress.kubernetes.io/rewrite-target: /$1
     # UPDATE ANNOTATION
+    certmanager.k8s.io/cluster-issuer: 'letsencrypt-prod'
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
 spec:
+  tls:
+    - hosts:
+      - dubi.dev
+      - www.dubi.dev
+      secretName: dubi-dev
   rules:
-    - http:
-        paths:
-          - path: /?(.*)
-            # UPDATE PATH
-            pathType: Prefix
-            # ADD PATHTYPE
-            backend:
-              service:
-                # UPDATE SERVICE FIELDS
-                name: client-cluster-ip-service
-                port:
-                  number: 3000
-          - path: /api/?(.*)
-            # UPDATE PATH
-            pathType: Prefix
-            # ADD PATHTYPE
-            backend:
-              service:
-                # UPDATE SERVICE FIELDS
-                name: server-cluster-ip-service
-                port:
-                  number: 5000
+    - host: dubi.dev
+      http:
+          paths:
+            - path: /?(.*)
+              # UPDATE PATH
+              pathType: Prefix
+              # ADD PATHTYPE
+              backend:
+                service:
+                  # UPDATE SERVICE FIELDS
+                  name: client-cluster-ip-service
+                  port:
+                    number: 3000
+            - path: /api/?(.*)
+              # UPDATE PATH
+              pathType: Prefix
+              # ADD PATHTYPE
+              backend:
+                service:
+                  # UPDATE SERVICE FIELDS
+                  name: server-cluster-ip-service
+                  port:
+                    number: 5000
+    - host: wwww.dubi.dev
+      http:
+          paths:
+            - path: /?(.*)
+              # UPDATE PATH
+              pathType: Prefix
+              # ADD PATHTYPE
+              backend:
+                service:
+                  # UPDATE SERVICE FIELDS
+                  name: client-cluster-ip-service
+                  port:
+                    number: 3000
+            - path: /api/?(.*)
+              # UPDATE PATH
+              pathType: Prefix
+              # ADD PATHTYPE
+              backend:
+                service:
+                  # UPDATE SERVICE FIELDS
+                  name: server-cluster-ip-service
+                  port:
+                    number: 5000
