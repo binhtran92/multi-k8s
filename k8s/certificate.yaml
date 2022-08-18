@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+ 
+kind: Certificate
+metadata:
+  name: dubi-dev-tls
+spec:
+  secretName: dubi-dev
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: dubi.dev
+  dnsNames:
+    - dubi.dev
+    - www.dubi.dev
